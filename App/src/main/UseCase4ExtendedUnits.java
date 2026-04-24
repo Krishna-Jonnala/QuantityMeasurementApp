@@ -1,9 +1,10 @@
-public class UseCase3QuantityLength {
+public class UseCase4ExtendedUnits {
 
-    // STEP 1: ENUM
     public enum LengthUnit {
         FEET(1.0),
-        INCH(1.0 / 12);
+        INCH(1.0 / 12),
+        YARD(3.0),
+        CM(0.393701 / 12); // convert cm → inches → feet
 
         private final double toFeet;
 
@@ -16,7 +17,6 @@ public class UseCase3QuantityLength {
         }
     }
 
-    // STEP 2: GENERIC CLASS
     public static class Quantity {
         private final double value;
         private final LengthUnit unit;
@@ -46,8 +46,8 @@ public class UseCase3QuantityLength {
     }
 
     public static void main(String[] args) {
-        Quantity q1 = new Quantity(1.0, LengthUnit.FEET);
-        Quantity q2 = new Quantity(12.0, LengthUnit.INCH);
+        Quantity q1 = new Quantity(1.0, LengthUnit.YARD);
+        Quantity q2 = new Quantity(3.0, LengthUnit.FEET);
 
         System.out.println("Equal: " + q1.equals(q2));
     }
