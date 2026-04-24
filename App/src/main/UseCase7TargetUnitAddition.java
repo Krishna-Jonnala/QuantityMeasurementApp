@@ -1,4 +1,4 @@
-public class UseCase6LengthAddition {
+public class UseCase7TargetUnitAddition {
 
     public enum LengthUnit {
         FEET(1.0),
@@ -16,8 +16,8 @@ public class UseCase6LengthAddition {
             return value * toFeet;
         }
 
-        public double fromBase(double valueInFeet) {
-            return valueInFeet / this.toFeet;
+        public double fromBase(double feetValue) {
+            return feetValue / this.toFeet;
         }
     }
 
@@ -41,24 +41,25 @@ public class UseCase6LengthAddition {
             return unit;
         }
 
-        // 🔥 UC6 CORE METHOD
+
         public Quantity add(Quantity other) {
+            return add(other, this.unit);
+        }
 
-            if (other == null) {
-                throw new IllegalArgumentException("Other quantity cannot be null");
-            }
 
-            // Convert both to base (feet)
+        public Quantity add(Quantity other, LengthUnit targetUnit) {
+
+            if (other == null) throw new IllegalArgumentException("Other cannot be null");
+            if (targetUnit == null) throw new IllegalArgumentException("Target unit cannot be null");
+
             double base1 = this.unit.toBase(this.value);
             double base2 = other.unit.toBase(other.value);
 
-            // Add
-            double sumBase = base1 + base2;
+            double sum = base1 + base2;
 
-            // Convert back to THIS unit
-            double resultValue = this.unit.fromBase(sumBase);
+            double resultValue = targetUnit.fromBase(sum);
 
-            return new Quantity(resultValue, this.unit);
+            return new Quantity(resultValue, targetUnit);
         }
 
         @Override
@@ -71,6 +72,6 @@ public class UseCase6LengthAddition {
         Quantity q1 = new Quantity(1.0, LengthUnit.FEET);
         Quantity q2 = new Quantity(12.0, LengthUnit.INCH);
 
-        System.out.println(q1.add(q2));
+        System.out.println(q1.add(q2, LengthUnit.YARD));
     }
 }
