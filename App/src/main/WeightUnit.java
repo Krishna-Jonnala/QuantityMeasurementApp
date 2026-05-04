@@ -2,7 +2,7 @@ public enum WeightUnit implements IMeasurable {
 
     KILOGRAM(1.0),
     GRAM(0.001),
-    POUND(0.453592);
+    TONNE(1000.0);
 
     private final double factor;
 
@@ -14,15 +14,15 @@ public enum WeightUnit implements IMeasurable {
         return factor;
     }
 
-    public double toBase(double value) {
+    public double convertToBaseUnit(double value) {
         return value * factor;
     }
 
-    public double fromBase(double baseValue) {
+    public double convertFromBaseUnit(double baseValue) {
         return baseValue / factor;
     }
 
     public String getUnitName() {
-        return name();
+        return this.name();
     }
 }
