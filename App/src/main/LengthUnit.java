@@ -2,6 +2,7 @@ public enum LengthUnit {
 
     FEET(1.0),
     INCHES(1.0 / 12),
+    INCHES(1.0 / 12.0),
     YARDS(3.0),
     CENTIMETERS(1.0 / 30.48);
 
@@ -13,6 +14,7 @@ public enum LengthUnit {
 
     public double convertToBaseUnit(double value) {
         return value * factor; // convert to FEET
+        return value * factor;
     }
 
     public double convertFromBaseUnit(double baseValue) {
