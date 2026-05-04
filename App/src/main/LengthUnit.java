@@ -9,11 +9,13 @@ public enum LengthUnit implements IMeasurable {
         this.factor = factor;
     }
 
-    public double getConversionFactor() {
-        return factor;
+    @Override
+    public double toBaseUnit(double value) {
+        return value * factor;
     }
 
-    public String getUnitName() {
-        return this.name();
+    @Override
+    public double fromBaseUnit(double baseValue) {
+        return baseValue / factor;
     }
 }
