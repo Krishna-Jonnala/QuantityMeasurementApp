@@ -10,10 +10,12 @@ public enum WeightUnit {
         this.factor = factor;
     }
 
+    // Convert to base unit (KG)
     public double toBase(double value) {
-        return value * factor; // to KG
+        return value * factor;
     }
 
+    // Convert from base unit (KG)
     public double fromBase(double baseValue) {
         return baseValue / factor;
     }

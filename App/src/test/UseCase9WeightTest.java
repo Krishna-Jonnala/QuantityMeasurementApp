@@ -5,40 +5,48 @@ public class UseCase9WeightTest {
 
     @Test
     void testEquality_KgToGram() {
-        assertTrue(new QuantityWeight(1, WeightUnit.KILOGRAM)
-                .equals(new QuantityWeight(1000, WeightUnit.GRAM)));
+        QuantityWeight q1 = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight q2 = new QuantityWeight(1000.0, WeightUnit.GRAM);
+
+        assertTrue(q1.equals(q2));
     }
 
     @Test
-    void testEquality_KgToPound() {
-        assertTrue(new QuantityWeight(1, WeightUnit.KILOGRAM)
-                .equals(new QuantityWeight(2.20462, WeightUnit.POUND)));
+    void testConversion_KgToGram() {
+        QuantityWeight q = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+
+        QuantityWeight result = q.convertTo(WeightUnit.GRAM);
+
+        assertEquals(new QuantityWeight(1000.0, WeightUnit.GRAM), result);
     }
 
     @Test
-    void testConversion() {
-        QuantityWeight result =
-                new QuantityWeight(1, WeightUnit.KILOGRAM)
-                        .convertTo(WeightUnit.GRAM);
+    void testAddition_DefaultUnit() {
+        QuantityWeight q1 = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight q2 = new QuantityWeight(1000.0, WeightUnit.GRAM);
 
-        assertEquals(1000, result.getValue(), 0.01);
+        QuantityWeight result = q1.add(q2);
+
+        assertEquals(new QuantityWeight(2.0, WeightUnit.KILOGRAM), result);
     }
 
     @Test
-    void testAddition() {
-        QuantityWeight result =
-                new QuantityWeight(1, WeightUnit.KILOGRAM)
-                        .add(new QuantityWeight(1000, WeightUnit.GRAM));
+    void testAddition_TargetUnit() {
+        QuantityWeight q1 = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight q2 = new QuantityWeight(1000.0, WeightUnit.GRAM);
 
-        assertTrue(result.equals(new QuantityWeight(2, WeightUnit.KILOGRAM)));
+        QuantityWeight result = q1.add(q2, WeightUnit.GRAM);
+
+        assertEquals(new QuantityWeight(2000.0, WeightUnit.GRAM), result);
     }
 
     @Test
-    void testAdditionWithTargetUnit() {
-        QuantityWeight result =
-                new QuantityWeight(1, WeightUnit.KILOGRAM)
-                        .add(new QuantityWeight(1000, WeightUnit.GRAM), WeightUnit.GRAM);
+    void testAddition_Pound() {
+        QuantityWeight q1 = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight q2 = new QuantityWeight(2.20462, WeightUnit.POUND);
 
-        assertEquals(2000, result.getValue(), 0.01);
+        QuantityWeight result = q1.add(q2, WeightUnit.KILOGRAM);
+
+        assertTrue(result.equals(new QuantityWeight(2.0, WeightUnit.KILOGRAM)));
     }
 }
