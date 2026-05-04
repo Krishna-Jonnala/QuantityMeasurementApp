@@ -2,6 +2,11 @@ public class QuantityLength {
 
     private final double value;
     private final LengthUnit unit;
+
+    public QuantityLength(double value, LengthUnit unit) {
+        if (unit == null) throw new IllegalArgumentException();
+        if (!Double.isFinite(value)) throw new IllegalArgumentException();
+
     private static final double EPSILON = 0.0001;
 
     public QuantityLength(double value, LengthUnit unit) {
@@ -12,6 +17,14 @@ public class QuantityLength {
         this.unit = unit;
     }
 
+    public double getValue() {
+        return value;
+    }
+
+    public LengthUnit getUnit() {
+        return unit;
+    }
+
     // Convert to another unit
     public QuantityLength convertTo(LengthUnit targetUnit) {
         double base = unit.convertToBaseUnit(value);
@@ -19,6 +32,8 @@ public class QuantityLength {
         return new QuantityLength(result, targetUnit);
     }
 
+    public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
+        double base1 = unit.convertToBaseUnit(value);
     // Add with target unit
     public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
         if (other == null || targetUnit == null) {
@@ -34,6 +49,8 @@ public class QuantityLength {
         return new QuantityLength(result, targetUnit);
     }
 
+    @Override
+    public boolean equals(Object obj) {
     // Equals method
     @Override
     public boolean equals(Object obj) {
@@ -42,6 +59,10 @@ public class QuantityLength {
 
         QuantityLength other = (QuantityLength) obj;
 
+        double base1 = unit.convertToBaseUnit(value);
+        double base2 = other.unit.convertToBaseUnit(other.value);
+
+        return Math.abs(base1 - base2) < 0.0001;
         double base1 = this.unit.convertToBaseUnit(this.value);
         double base2 = other.unit.convertToBaseUnit(other.value);
 
